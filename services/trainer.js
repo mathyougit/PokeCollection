@@ -11,6 +11,7 @@ const getTrainer = async (req, res) => {
 
 const postTrainer = async (req, res) => {
   if (!req.body.name) return res.status(400).send('Invalid Input.');
+  console.log(req.body.name)
   const newTrainerId = new mongoose.Types.ObjectId();
   const newPokeCollectionId = new mongoose.Types.ObjectId();
   const newTrainer = new Trainer({
