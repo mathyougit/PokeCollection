@@ -1,4 +1,10 @@
 const PACK_TYPES = {
+  starter: {
+    cost: 0,
+    raresPerPack: 0,
+    uncommonsPerPack: 1,
+    commonsPerPack: 2
+  },
   basic: {
     cost: 1,
     raresPerPack: 1,
