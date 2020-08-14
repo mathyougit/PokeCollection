@@ -11,6 +11,8 @@ const { postPack, postEvolve } = require('./services/pokeCollection');
 
 mongoose.connect(process.env.DB_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// CONFIG CORS TO WORK ONLY WITH DESIGNATED URL
+
 app.use(cors())
 
 app.use(express.json());
