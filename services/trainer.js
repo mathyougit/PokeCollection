@@ -1,7 +1,6 @@
 const Trainer = require('../models/trainer');
 const PokeCollection = require('../models/pokeCollection');
 const fetch = require("node-fetch");
-const { postPack } = require('./pokeCollection');
 const mongoose = require('mongoose');
 
 const getTrainer = async (req, res) => {
@@ -52,7 +51,32 @@ const postTrainer = async (req, res) => {
   }
 };
 
+const putTrainerCurrency = async (req, res) => {
+  const currency = req.body.currency;
+  const trainerId = req.body.trainerId;
+
+  if (!currency) res.status(400).send('no currency value supplied.')
+
+  if (!trainerId) res.status(400).send('no trainer ID supplied')
+
+  const foundTrainer = await Trainer
+  .findById(trainerId);
+
+  if (!foundTrainer) return res.status(400).send('No trainer found for that id.');
+
+  foundTrainer.currency += currency;
+
+  try {
+  await foundTrainer.save();
+  
+  res.status(200).json(foundTrainer.currency);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+}
+
 module.exports = {
   getTrainer,
   postTrainer,
+  putTrainerCurrency,
 }

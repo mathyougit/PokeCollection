@@ -5,7 +5,7 @@ const cors = require('cors')
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 
-const { getTrainer, postTrainer } = require('./services/trainer');
+const { getTrainer, postTrainer, putTrainerCurrency } = require('./services/trainer');
 const postPokemon = require('./services/pokemon');
 const { postPack, postEvolve } = require('./services/pokeCollection');
 
@@ -33,10 +33,11 @@ const checkBearerToken = (req, res, next) => {
 
 app.get('/trainer/:id', getTrainer);
 app.post('/trainer',  postTrainer);
+app.put('trainer/currency', putTrainerCurrency);
 
 app.post('/pokemon', postPokemon);
 
 app.post('/pokeCollection/pack', postPack);
 app.post('/pokeCollection/evolve', postEvolve);
 
-app.listen(port, () => console.log(`PokeCollection app listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`GottaFetchEmAll app listening at http://localhost:${port}`));
