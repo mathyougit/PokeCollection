@@ -28,12 +28,9 @@ const postTrainer = async (req, res) => {
   });
   try {
     const newTrainerResult = await newTrainer.save();
-
-    console.log(newTrainerResult)
-
     await newPokeCollection.save();
     postPack( JSON.stringify({
-      trainerId: newTrainerId,
+      trainerId: newTrainerResult._id,
       packType: 'starter',
     }))
     res.status(200).json(newTrainerResult);
