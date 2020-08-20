@@ -1,5 +1,6 @@
 const Trainer = require('../models/trainer');
 const PokeCollection = require('../models/pokeCollection');
+const { postPack } = require('./pokeCollection');
 const mongoose = require('mongoose');
 
 const getTrainer = async (req, res) => {
@@ -16,9 +17,12 @@ const postTrainer = async (req, res) => {
   const newTrainer = new Trainer({
     _id: newTrainerId,
     name: req.body.name,
-    currency: 1,
+    currency: 50,
     pokecollection: newPokeCollectionId,
   });
+
+
+
   const newPokeCollection = new PokeCollection({
     _id: newPokeCollectionId,
     pokemons: [],
@@ -27,6 +31,10 @@ const postTrainer = async (req, res) => {
   try {
     const newTrainerResult = await newTrainer.save();
     await newPokeCollection.save();
+    await postPack( JSON.stringify({
+      trainerId: newTrainerId,
+      packType: 'starter',
+    }))
     res.status(200).json(newTrainerResult);
   } catch (error) {
     res.status(500).send(error.message);
