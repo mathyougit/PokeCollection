@@ -1,5 +1,6 @@
 const Trainer = require('../models/trainer');
 const PokeCollection = require('../models/pokeCollection');
+const fetch = require("node-fetch");
 const { postPack } = require('./pokeCollection');
 const mongoose = require('mongoose');
 
@@ -29,10 +30,22 @@ const postTrainer = async (req, res) => {
   try {
     const newTrainerResult = await newTrainer.save();
     await newPokeCollection.save();
-    postPack( JSON.stringify({
-      trainerId: newTrainerResult._id,
-      packType: 'starter',
-    }))
+    const newPack = fetch('https://gottafetchemall.herokuapp.com/pokeCollection/pack',
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          trainerId: newTrainerResult._id,
+          packType: 'starter',
+        })
+      }
+    )
+    .then((response) => {
+      return response.json();
+    })
     res.status(200).json(newTrainerResult);
   } catch (error) {
     res.status(500).send(error.message);
