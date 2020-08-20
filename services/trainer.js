@@ -21,8 +21,6 @@ const postTrainer = async (req, res) => {
     pokecollection: newPokeCollectionId,
   });
 
-
-
   const newPokeCollection = new PokeCollection({
     _id: newPokeCollectionId,
     pokemons: [],
@@ -30,6 +28,9 @@ const postTrainer = async (req, res) => {
   });
   try {
     const newTrainerResult = await newTrainer.save();
+
+    console.log(newTrainerResult)
+
     await newPokeCollection.save();
     postPack( JSON.stringify({
       trainerId: newTrainerId,
